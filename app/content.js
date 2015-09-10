@@ -1,12 +1,14 @@
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.text && (message.text === "add_calendar")) {
-        setTimeout(function () {
-            addCalendar();
-        }, 1);
+        chrome.storage.sync.get({
+            timeZone: Math.floor((new Date()).getTimezoneOffset() / 60),
+	}, function (items) {
+            addCalendar(items.timeZone);
+        });
     }
 });
 
-var addCalendar = function () {
+var addCalendar = function (timeZoneOffsetHour) {
     if (document.URL.indexOf('/am=t') < 0) {
         alert('Please open Details');
         return;
@@ -24,11 +26,22 @@ var addCalendar = function () {
     };
     var dates = function () {
         var z = function(x) {
-            return ('00' + x).slice(-2);
+	    return ('00' + x).slice(-2);
+        };
+        var zz = function(x) {
+            var sign = '+';
+	    if (x < 0) sign = '-';
+	    return sign + ('00' + x).slice(-2);
+        };
+	var timeZone = function (hour) {
+            hour = parseInt(hour, 10);
+	    if (hour === 0) return 'Z';
+	    var n = hour.toFixed(2).split('.');
+	    return zz(n[0]) + ':' + z(n[1] / 100 * 60);
         };
         var utcMsec = function (msec) {
             var d = new Date(msec);
-            return d.getUTCFullYear() + z(d.getUTCMonth() + 1) + z(d.getUTCDate()) + 'T' + z(d.getUTCHours()) + z(d.getUTCMinutes()) + '00Z';
+            return d.getUTCFullYear() + z(d.getUTCMonth() + 1) + z(d.getUTCDate()) + 'T' + z(d.getUTCHours()) + z(d.getUTCMinutes()) + '00' + timeZone(timeZoneOffsetHour);
         };
         var parseTransitTime = function (span) {
             var h = parseInt(span.innerText.split(' ')[0].split(':')[0], 10);
