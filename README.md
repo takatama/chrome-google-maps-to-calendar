@@ -24,4 +24,22 @@ https://developer.chrome.com/extensions/manifest
 chrome.pageAction - Google Chrome
 https://developer.chrome.com/extensions/pageAction
 
+Options - Google Chrome
+https://developer.chrome.com/extensions/optionsV2
+
+chrome.storage - Google Chrome
+https://developer.chrome.com/extensions/storage
+
+javascript - How to add &nbsp; using d3.js selection.text() method - Stack Overflow
+http://stackoverflow.com/questions/12882885/how-to-add-nbsp-using-d3-js-selection-text-method
+
+st HTML select snippet - FreeFormatter.com
+http://www.freeformatter.com/time-zone-list-html-select.html
+
+Google Calendar render action Template parameter documentation - Stack Overflow
+http://stackoverflow.com/questions/22757908/google-calendar-render-action-template-parameter-documentation
+
+javascript - Change Date so all hours are offset by 4 hour - Stack Overflow
+http://stackoverflow.com/questions/8750001/change-date-so-all-hours-are-offset-by-4-hour
+
 
