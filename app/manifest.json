@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "Maps to Calendar",
+  "version": "1.0.0",
+  "default_locale": "en",
+  "description": "Make Google Maps transit directions result as Google Calendar travel event",
+  "icons": {
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "page_action": {
+    "default_icon": {
+      "19": "images/icon19.png",
+      "48": "images/icon48.png"
+    },
+    "default_title": "Add to calendar"
+  },
+  "permissions": [
+    "declarativeContent",
+    "activeTab"
+  ], 
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [{
+    "matches": ["*://*.google.com/maps/*", "*://*.google.co.jp/maps/*"],
+    "js": ["content.js"]
+  }]
+}
