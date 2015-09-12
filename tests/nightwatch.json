@@ -1,0 +1,10 @@
+{
+    "test_settings" : {
+        "default" : {
+            "silent": true,
+                "desiredCapabilities": {
+                    "browserName": "chrome"
+                }
+        }
+    }
+}

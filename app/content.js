@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.text && (message.text === "add_calendar")) {
         chrome.storage.sync.get({
             timeZone: currentTimeZoneOffsetHour()
-	}, function (items) {
+	    }, function (items) {
             addCalendar(items.timeZone);
         });
     }
