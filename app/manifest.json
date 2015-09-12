@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Maps to Calendar",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "default_locale": "en",
   "description": "Make Google Maps transit directions result as Google Calendar travel event",
   "icons": {
