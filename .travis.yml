@@ -10,5 +10,5 @@ node_js:
 before_script:
   - npm install -g nightwatch
 script:
-  - nightwatch -c tests/nightwatch.js -e saucelabs -t tests/maps.js
+  - nightwatch -c tests/nightwatch.json -e saucelabs -t tests/maps.js
 
