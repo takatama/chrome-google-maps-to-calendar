@@ -38,3 +38,10 @@ Optional: You can select time zone used in your Google Calendar account.
 
 [javascript - Change Date so all hours are offset by 4 hour - Stack Overflow](http://stackoverflow.com/questions/8750001/change-date-so-all-hours-are-offset-by-4-hour)
 
+https://github.com/nightwatchjs/nightwatch/issues/1
+
+https://docs.saucelabs.com/ci-integrations/travis-ci/
+
+https://github.com/gextech/grunt-nightwatch/blob/master/.travis.yml
+
+
