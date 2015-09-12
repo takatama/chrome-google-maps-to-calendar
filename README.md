@@ -1,5 +1,7 @@
 # Maps-to-Calendar
 
+[![Build Status](https://travis-ci.org/takatama/chrome-google-maps-to-calendar.svg?branch=master)](https://travis-ci.org/takatama/chrome-google-maps-to-calendar)
+
 Chrome Extension to add transit information on Google Maps easily to Google Calendar.
 
 Optional: You can select time zone used in your Google Calendar account.
@@ -44,4 +46,7 @@ https://docs.saucelabs.com/ci-integrations/travis-ci/
 
 https://github.com/gextech/grunt-nightwatch/blob/master/.travis.yml
 
+[Building a Node.js project - Travis CI](http://docs.travis-ci.com/user/languages/javascript-with-nodejs/)
+
+[Embedding Status Images - Travis CI](http://docs.travis-ci.com/user/status-images/)
 
