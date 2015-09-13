@@ -50,3 +50,6 @@ https://github.com/gextech/grunt-nightwatch/blob/master/.travis.yml
 
 [Embedding Status Images - Travis CI](http://docs.travis-ci.com/user/status-images/)
 
+[Testing in a real browser with Sauce Labs on Travis CI](http://samsaccone.com/posts/testing-with-travis-and-sauce-labs.html)
+
+
