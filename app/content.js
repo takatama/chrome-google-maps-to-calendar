@@ -1,80 +1,80 @@
-var currentTimeZoneOffsetHour = function() {
+var currentTimeZoneOffset = function() {
     return Math.floor((new Date()).getTimezoneOffset() / 60);
 };
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.text && (message.text === "add_calendar")) {
         chrome.storage.sync.get({
-            timeZone: currentTimeZoneOffsetHour()
+            timeZone: currentTimeZoneOffset()
 	    }, function (items) {
             addCalendar(items.timeZone);
         });
     }
 });
 
-var addCalendar = function (timeZoneOffsetHour) {
-    if (document.URL.indexOf('/am=t') < 0) {
-        alert('Please open Details');
-        return;
-    }
-    var e = encodeURIComponent;
+var parse = function (document) {
     var q = document.querySelectorAll.bind(document);
-    var text = function () {
-        var wp = q('.waypoint-address:not([style*="display"]) .first-line span');
-        var from = wp[0].innerText;
-        var to = wp[wp.length - 1].innerText;
-        return e(from + ' -> ' + to);
-    };
-    var details = function () {
-        return e(document.URL);
-    };
-    var dates = function () {
-        var z = function(x) {
-	    return ('00' + x).slice(-2);
-        };
-        var utcMsec = function (msec) {
-            var d = new Date(msec);
-            var diff = currentTimeZoneOffsetHour() + parseInt(timeZoneOffsetHour, 10);
-            d.setHours(d.getHours() - diff);
-            return d.getUTCFullYear() + z(d.getUTCMonth() + 1) + z(d.getUTCDate()) + 'T' + z(d.getUTCHours()) + z(d.getUTCMinutes()) + '00Z';
-        };
-        var parseTransitTime = function (span) {
-            var h = parseInt(span.innerText.split(' ')[0].split(':')[0], 10);
-            var m = parseInt(span.innerText.split(' ')[0].split(':')[1], 10);
-            var ampm = span.innerText.split(' ')[1];
-            if (ampm === 'PM' && h < 12) {
-                h += 12;
-            }
-            return { hour: h, minutes: m };
-        };
-        var transitTime = q('.cards-directions-transit-trip-time span');
-        var start = parseTransitTime(transitTime[0]);
-        var end = parseTransitTime(transitTime[1]);
-        var duration = q('.cards-directions-duration-value')[0].innerText;
-        var today = new Date();
-        var todayLabel = q('.date-input')[0].innerText;
-        if (todayLabel.match(/(\d+)\s*月\s*(\d+)\s*日/)) {
-            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            todayLabel = monthNames[parseInt(RegExp.$1, 10) - 1] + ' ' + RegExp.$2;
-        }
-        var startMsec = Date.parse(todayLabel + ' ' + today.getFullYear() + ' ' + start.hour + ':' + start.minutes + ':00');
-        if (!startMsec) return;
-        if (startMsec < today.getTime()) {
-        var sd = new Date(startMsec);
-            sd.setMonth(sd.getMonth() + 1);
-            startMsec = sd.getTime();
-        }
-        if (duration.match(/(\d+)\s*h\s*(\d+)\s*min/) || duration.match(/(\d+)\s*時間\s*(\d+)\s*分/)) {
-            var endMsec = startMsec + (parseInt(RegExp.$1) * 60 + parseInt(RegExp.$2)) * 60 * 1000;
-        } else if (duration.match(/(\d+)\s*min/) || duration.match(/(\d+)\s*分/)) {
-            var endMsec = startMsec + parseInt(RegExp.$1) * 60 * 1000;
-        }
-        return utcMsec(startMsec) + '/' + utcMsec(endMsec);
-    };
-    var d = dates();
-    if (d) {
-        var href = 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + text() + '&details=' + details() + '&dates='+ d + '&location=&trp=true';
-        window.open(href);
+    var result = {};
+    var wp = q('.waypoint-address:not([style*="display"]) .first-line span');
+    if (wp.length > 0) { // Details
+        result.from = wp[0].innerText;
+        result.to = wp[wp.length - 1].innerText;
+    } else { // Details is not shown
+        result.from = q('#directions-searchbox-0 input')[0].value.split(',')[0];
+        result.to = q('#directions-searchbox-1 input')[0].value.split(',')[0];
     }
+    var startEnd = q('.cards-directions-transit-trip-time span');
+    var to24hour = function (text) {
+        var hour = parseInt(text.split(' ')[0].split(':')[0], 10);
+        var min = parseInt(text.split(' ')[0].split(':')[1], 10);
+        if (text.indexOf('PM') >= 0) {
+            hour += 12; 
+        }
+        return { "hour": hour, "min": min };
+    };
+    var start = to24hour(startEnd[0].innerText);
+    var end = to24hour(startEnd[1].innerText);
+    var duration = q('.cards-directions-duration-value')[0].innerText;
+    var date = q('.date-input')[0].innerText;
+    if (date.match(/(\d+)\s*月\s*(\d+)\s*日/)) {
+        var monthes = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        date = monthes[parseInt(RegExp.$1, 10) - 1] + ' ' + RegExp.$2;
+    }
+    var now = new Date();
+    var startDate = new Date(date + ' ' + now.getFullYear() + ' ' + start.hour + ':' + start.min + ':00');
+    var endDate = new Date(date + ' ' + now.getFullYear() + ' ' + end.hour + ':' + end.min + ':00');
+    if (startDate.getMonth() < now.getMonth()) {
+        startDate.setFullYear(startDate.getFullYear() + 1);
+    }
+    if (endDate.getMonth() < now.getMonth()) {
+        endDate.setFullYear(endDate.getFullYear() + 1);
+    }
+    result.start = startDate;
+    result.end = endDate;
+    result.adjustTimezone = function (offset) {
+        var diff = currentTimeZoneOffset() + parseInt(offset, 10);
+        this.start.setHours(this.start.getHours() - diff);
+        this.end.setHours(this.end.getHours() - diff);
+    };
+    return result;
+};
+
+var utc = function (date) {
+    var z = function(x) {
+        return ('00' + x).slice(-2);
+    };
+    return date.getUTCFullYear() + z(date.getUTCMonth() + 1) + z(date.getUTCDate()) + 'T' + z(date.getUTCHours()) + z(date.getUTCMinutes()) + '00Z';
+};
+
+var addCalendar = function (timeZoneOffset) {
+    var e = encodeURIComponent;
+    var data = parse(document);
+    var text = e(data.from + ' -> ' + data.to);
+    var details = e(document.URL);
+    if (timeZoneOffset) {
+        data.adjustTimezone(timeZoneOffset)
+    }
+    var href = 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + text + '&details=' + details + '&dates='+ utc(data.start) + '/' + utc(data.end) + '&location=&trp=true';
+    window.open(href);
 };
 
