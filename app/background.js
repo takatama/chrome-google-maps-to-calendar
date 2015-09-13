@@ -3,16 +3,18 @@ chrome.runtime.onInstalled.addListener(function () {
         chrome.declarativeContent.onPageChanged.addRules([{
             conditions: [
                 new chrome.declarativeContent.PageStateMatcher({
-                    pageUrl: { hostSuffix: 'google.com', urlContains: '/maps/', urlContains: '/am=t'}
+                    pageUrl: { hostSuffix: 'google.com', urlContains: '/maps/dir/'},
+                    css: ['.cards-directions-transit-trip-time']
                 }),
                 new chrome.declarativeContent.PageStateMatcher({
-                    pageUrl: { hostSuffix: 'google.co.jp', urlContains: '/maps/', urlContains: '/am=t'}
+                    pageUrl: { hostSuffix: 'google.co.jp', urlContains: '/maps/dir/'},
+                    css: ['.cards-directions-transit-trip-time']
                 })
             ],
             actions: [
                 new chrome.declarativeContent.ShowPageAction()
             ]
-	}]);
+	    }]);
     });
 });
 
