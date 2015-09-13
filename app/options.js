@@ -20,7 +20,7 @@ function restoreOptions() {
 }
 
 function timezoneHtml() {
-    var i, html = [];
+    var i, html = ['<option value=""></option>'];
     for (i = 0; i < timezones.length; i++) {
         var option = '<option value="' + timezones[i].text + '">' + timezones[i].text + '</option>';
         html.push(option);
