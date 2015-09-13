@@ -25,8 +25,8 @@
     "persistent": false
   },
   "content_scripts": [{
-    "matches": ["*://*.google.com/maps/*", "*://*.google.co.jp/maps/*"],
-    "js": ["content.js"]
+    "matches": ["*://*.google.com/maps/dir/*", "*://*.google.co.jp/maps/dir/*"],
+    "js": ["content.js", "timezones.js"]
   }],
   "options_ui": {
     "page": "options.html",

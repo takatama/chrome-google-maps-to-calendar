@@ -10,6 +10,15 @@ Optional: You can select time zone used in your Google Calendar account.
 
 - Taking into account daylight saving time for selected time zone.
 
+## Note
+
+This software uses the following software:
+
+### timezone.json
+Copyright (c) 2014 Dmitriy Filipenko
+Released under the MIT license
+https://github.com/dmfilipenko/timezones.json/blob/master/LICENSE
+
 ## References
 
 [javascript - Chrome Extension - Get DOM content - Stack Overflow](http://stackoverflow.com/questions/19758028/chrome-extension-get-dom-content)

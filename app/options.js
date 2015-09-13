@@ -19,6 +19,15 @@ function restoreOptions() {
     });
 }
 
+function timezoneHtml() {
+    var i, html = [];
+    for (i = 0; i < timezones.length; i++) {
+        var option = '<option value="' + timezones[i].text + '">' + timezones[i].text + '</option>';
+        html.push(option);
+    }
+    return html;
+}
+document.getElementById('time-zone').innerHTML = timezoneHtml().join('\n');
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('time-zone').addEventListener('change', saveOptions);
 document.getElementById('save').addEventListener('click', saveOptions);

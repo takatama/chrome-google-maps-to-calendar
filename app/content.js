@@ -1,11 +1,7 @@
-var currentTimeZoneOffset = function() {
-    return Math.floor((new Date()).getTimezoneOffset() / 60);
-};
-
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.text && (message.text === "add_calendar")) {
         chrome.storage.sync.get({
-            timeZone: currentTimeZoneOffset()
+            timeZone: null
 	    }, function (items) {
             addCalendar(items.timeZone);
         });
@@ -52,7 +48,9 @@ var parse = function (document) {
     result.start = startDate;
     result.end = endDate;
     result.adjustTimezone = function (offset) {
-        var diff = currentTimeZoneOffset() + parseInt(offset, 10);
+        if (!offset) return;
+        var currentTimeZoneOffset = Math.floor((new Date()).getTimezoneOffset() / 60);
+        var diff = currentTimeZoneOffset + parseInt(offset, 10);
         this.start.setHours(this.start.getHours() - diff);
         this.end.setHours(this.end.getHours() - diff);
     };
@@ -66,13 +64,23 @@ var utc = function (date) {
     return date.getUTCFullYear() + z(date.getUTCMonth() + 1) + z(date.getUTCDate()) + 'T' + z(date.getUTCHours()) + z(date.getUTCMinutes()) + '00Z';
 };
 
-var addCalendar = function (timeZoneOffset) {
+var timeZoneOffset = function (timeZone) {
+    var i;
+    for (i = 0; i < timezones.length; i++) {
+        if (timezones[i].text === timeZone) {
+            return timezones[i].offset;
+        }
+    }
+    return null;
+};
+
+var addCalendar = function (timeZone) {
     var e = encodeURIComponent;
     var data = parse(document);
     var text = e(data.from + ' -> ' + data.to);
     var details = e(document.URL);
-    if (timeZoneOffset) {
-        data.adjustTimezone(timeZoneOffset)
+    if (timeZone) {
+        data.adjustTimezone(timeZoneOffset(timeZone))
     }
     var href = 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + text + '&details=' + details + '&dates='+ utc(data.start) + '/' + utc(data.end) + '&location=&trp=true';
     window.open(href);
