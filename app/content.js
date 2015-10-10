@@ -19,7 +19,8 @@ var parse = function (document) {
         result.from = q('#directions-searchbox-0 input')[0].value.split(',')[0];
         result.to = q('#directions-searchbox-1 input')[0].value.split(',')[0];
     }
-    var startEnd = q('.cards-directions-transit-trip-time span');
+    //var startEnd = q('.cards-directions-transit-trip-time span');
+    var startEnd = q('.widget-pane-section-directions-trip-title span');
     var to24hour = function (text) {
         var hour = parseInt(text.split(' ')[0].split(':')[0], 10);
         var min = parseInt(text.split(' ')[0].split(':')[1], 10);
@@ -30,7 +31,8 @@ var parse = function (document) {
     };
     var start = to24hour(startEnd[0].innerText);
     var end = to24hour(startEnd[1].innerText);
-    var duration = q('.cards-directions-duration-value')[0].innerText;
+    //var duration = q('.cards-directions-duration-value')[0].innerText;
+    var duration = q('.widget-pane-section-directions-trip-duration')[0].innerText;
     var date = q('.date-input')[0].innerText;
     if (date.match(/(\d+)\s*月\s*(\d+)\s*日/)) {
         var monthes = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
