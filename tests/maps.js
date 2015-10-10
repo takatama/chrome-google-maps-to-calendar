@@ -21,8 +21,8 @@ module.exports = {
             .waitForElementPresent('.widget-pane-section-directions-trip-title span', timeoutMilliSec) // Start and End time
             .assert.elementPresent('.date-input') // Date
             .assert.elementPresent('.waypoint-address:not([style*="display"]) .first-line span') // From and To
-            //.assert.elementPresent('.widget-pane-section-directions-trip-duration') // Duration
-            .assert.elementPresent('.cards-directions-duration') // Duration
+            //.assert.elementPresent('.cards-directions-duration') // Duration
+            .assert.elementPresent('.widget-pane-section-directions-trip-duration') // Duration
             .end();
     }
 };
