@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "Maps to Calendar",
+  "name": "__MSG_extName__",
+  "short_name": "__MSG_extShortName__",
   "version": "0.1.2",
   "default_locale": "en",
-  "description": "Add transit information on Google Maps easily to Google Calendar.",
+  "description": "__MSG_extDescription",
   "icons": {
     "48": "images/icon48.png",
     "128": "images/icon128.png"

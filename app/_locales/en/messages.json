@@ -1,2 +1,11 @@
 {
+  "extName": {
+    "message": "Google Maps to Calendar"
+  },
+  "extShortName": {
+    "message": "To Calendar"
+  },
+  "extDescription": {
+    "message": "Add transit information on Google Maps easily to Google Calendar."
+  }
 }

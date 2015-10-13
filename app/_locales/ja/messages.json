@@ -1,0 +1,11 @@
+{
+  "extName": {
+    "message": "Googleマップからカレンダーへ登録"
+  },
+  "extShortName": {
+    "message": "カレンダーへ登録"
+  },
+  "extDescription": {
+    "message": "Googleマップで検索した乗り換え案内をGoogleカレンダーへ簡単に登録します。"
+  }
+}
