@@ -29,8 +29,8 @@ var parse = function (document) {
         }
         return { "hour": hour, "min": min };
     };
-    var start = to24hour(startEnd[0].innerText);
-    var end = to24hour(startEnd[1].innerText);
+    var start = to24hour(startEnd[1].innerText);
+    var end = to24hour(startEnd[2].innerText);
     //var duration = q('.cards-directions-duration-value')[0].innerText;
     var duration = q('.widget-pane-section-directions-trip-duration')[0].innerText;
     var date = q('.date-input')[0].innerText;

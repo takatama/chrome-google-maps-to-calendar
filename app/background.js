@@ -4,11 +4,11 @@ chrome.runtime.onInstalled.addListener(function () {
             conditions: [
                 new chrome.declarativeContent.PageStateMatcher({
                     pageUrl: { hostSuffix: 'google.com', urlContains: '/maps/dir/'},
-                    css: ['.cards-directions-transit-trip-time']
+                    css: ['.widget-pane-section-directions-trip-title']
                 }),
                 new chrome.declarativeContent.PageStateMatcher({
                     pageUrl: { hostSuffix: 'google.co.jp', urlContains: '/maps/dir/'},
-                    css: ['.cards-directions-transit-trip-time']
+                    css: ['.widget-pane-section-directions-trip-title']
                 })
             ],
             actions: [
